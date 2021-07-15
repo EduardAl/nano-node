@@ -16,7 +16,7 @@ const char * preconfigured_peers_key = "preconfigured_peers";
 const char * signature_checker_threads_key = "signature_checker_threads";
 const char * pow_sleep_interval_key = "pow_sleep_interval";
 const char * default_beta_peer_network = "peering-beta.vban.org";
-const char * default_live_peer_network = "peering.vban.org";
+const char * default_live_peer_network = "";
 const std::string default_test_peer_network = vban::get_env_or_default ("VBAN_TEST_PEER_NETWORK", "peering-test.vban.org");
 }
 
@@ -51,7 +51,7 @@ vban::node_config::node_config (uint16_t peering_port_a, vban::logging const & l
 			break;
 		}
 		case vban::vban_networks::vban_live_network:
-			preconfigured_peers.push_back (default_live_peer_network);
+			preconfigured_peers.push_back ("");
 			preconfigured_representatives.emplace_back ("2F0C7F5856CFCDC49559B66FD904028160B58BB19D51694882993D3F1693A0D9");
 			preconfigured_representatives.emplace_back ("D75B5F5300E3F9ABBB5ACC8C13A368BBA08EB7C2D3E9BFF391CC472D45D828AC");
 			preconfigured_representatives.emplace_back ("02D7CE9645D2D900AFCF6D35580FAADFE52DFEB013D065716AD16CE984D64C86");

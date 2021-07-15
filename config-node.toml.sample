@@ -129,7 +129,7 @@
 #pow_sleep_interval = 0
 
 # A list of "address" (hostname or ipv6 notation ip address) entries to identify preconfigured peers.
-#preconfigured_peers = ["peering.vban.org"]
+#preconfigured_peers = [""]
 
 # A list of representative account addresses used when creating new accounts in internal wallets.
 #preconfigured_representatives = ["vban_1drehxe7fmyfrkcomfmhu64171d1pp7u59cjf76a78bx9wdb9a8ss7wxwcni", "vban_3otudxbi3rzsogxoom6e4gjpjgx1jtuw7nzbqzss5m497o4xic7efs47tnzz", "vban_11pqstd6dnps14qwyubod19toqz77qzd16yieorpondex84fem68fyjncxpq", "vban_1agoy3fwtg7e35znu9c7nydoxoa1gbgzrwfhscpzohuwfw7cqz4xb9xry7m4"]
