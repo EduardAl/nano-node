@@ -1,16 +1,16 @@
 #!/bin/sh
 
-# the caller should set the env var NANO_NODE_EXE to point to the nano_node executable
-# if NANO_NODE_EXE is unser ot empty then "../../build/nano_node" is used
-NANO_NODE_EXE=${NANO_NODE_EXE:-../../build/nano_node}
+# the caller should set the env var VBAN_NODE_EXE to point to the vban_node executable
+# if VBAN_NODE_EXE is unser ot empty then "../../build/vban_node" is used
+VBAN_NODE_EXE=${VBAN_NODE_EXE:-../../build/vban_node}
 
 mkdir -p data/log
 rm data/log/log_*.log
 
-# start nano_node and store its pid so we can later send it
+# start vban_node and store its pid so we can later send it
 # the SIGHUP signal and so we can terminate it
-echo start nano_node
-$NANO_NODE_EXE --daemon --data_path data &
+echo start vban_node
+$VBAN_NODE_EXE --daemon --data_path data &
 pid=$!
 echo pid=$pid
 
@@ -24,7 +24,7 @@ bandwidth_limit = 42
 bandwidth_limit_burst_ratio = 43
 EOF
 
-# send nano_node the SIGHUP signal
+# send vban_node the SIGHUP signal
 kill -HUP $pid
 
 # wait for the signal handler to kick in
@@ -37,13 +37,13 @@ bandwidth_limit = 44
 bandwidth_limit_burst_ratio = 45
 EOF
 
-# send nano_node the SIGHUP signal
+# send vban_node the SIGHUP signal
 kill -HUP $pid
 
 # wait for the signal handler to kick in
 sleep 2
 
-# terminate nano node and wait for it to die
+# terminate vban node and wait for it to die
 kill $pid
 wait $pid
 

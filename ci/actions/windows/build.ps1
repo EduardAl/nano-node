@@ -12,8 +12,8 @@ if (${env:artifact} -eq 1) {
     else {
         $env:NETWORK_CFG = "live"
     }
-    $env:NANO_SHARED_BOOST = "ON"
-    $env:NANO_TEST = "-DNANO_TEST=OFF"
+    $env:VBAN_SHARED_BOOST = "ON"
+    $env:VBAN_TEST = "-DVBAN_TEST=OFF"
     $env:TRAVIS_TAG = ${env:TAG}
     
     $env:CI = "-DCI_BUILD=ON"
@@ -26,9 +26,9 @@ else {
     else { 
         $env:BUILD_TYPE = "Debug"
     }
-    $env:NANO_SHARED_BOOST = "OFF"
+    $env:VBAN_SHARED_BOOST = "OFF"
     $env:NETWORK_CFG = "dev"
-    $env:NANO_TEST = "-DNANO_TEST=ON"
+    $env:VBAN_TEST = "-DVBAN_TEST=ON"
     $env:CI = '-DCI_TEST="1"'
     $env:RUN = "test"
 }

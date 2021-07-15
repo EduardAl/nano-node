@@ -1,0 +1,13 @@
+[Unit]
+Description=Vban Test Network Daemon
+After=network.target
+
+[Service]
+Type=simple
+User=nanocurrency
+WorkingDirectory=/var/nanocurrency/VbanTest
+ExecStart=/usr/bin/vban_node --daemon --network=test --data_path=/var/nanocurrency/VbanTest
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

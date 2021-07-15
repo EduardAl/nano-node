@@ -19,7 +19,7 @@ set(CMAKE_OSX_DEPLOYMENT_TARGET
     10.14
     CACHE STRING "")
 
-project(nano-node)
+project(vban-node)
 
 # Get the latest abbreviated commit hash of the working branch
 execute_process(
@@ -41,7 +41,7 @@ set(CPACK_PACKAGE_VERSION_MAJOR "22")
 set(CPACK_PACKAGE_VERSION_MINOR "1")
 set(CPACK_PACKAGE_VERSION_PATCH "0")
 set(CPACK_PACKAGE_VERSION_PRE_RELEASE "0")
-set(CPACK_PACKAGE_VENDOR "Nano Currency")
+set(CPACK_PACKAGE_VENDOR "Vban Currency")
 
 if(CI_BUILD)
   set(TAG_VERSION_STRING "$ENV{TRAVIS_TAG}")
@@ -60,35 +60,35 @@ endif()
 # Create all libraries and executables in the root binary dir
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-set(NANO_GUI
+set(VBAN_GUI
     OFF
     CACHE BOOL "")
-set(NANO_TEST
+set(VBAN_TEST
     OFF
     CACHE BOOL "")
-set(NANO_SECURE_RPC
+set(VBAN_SECURE_RPC
     OFF
     CACHE BOOL "")
-set(NANO_POW_SERVER
+set(VBAN_POW_SERVER
     OFF
     CACHE BOOL "")
-set(NANO_WARN_TO_ERR
+set(VBAN_WARN_TO_ERR
     OFF
     CACHE BOOL "")
-set(NANO_TIMED_LOCKS
+set(VBAN_TIMED_LOCKS
     0
     CACHE STRING "")
-set(NANO_TIMED_LOCKS_IGNORE_BLOCKED
+set(VBAN_TIMED_LOCKS_IGNORE_BLOCKED
     OFF
     CACHE BOOL "")
-set(NANO_TIMED_LOCKS_FILTER
+set(VBAN_TIMED_LOCKS_FILTER
     ""
     CACHE
       STRING
       "Selects which mutex should be the only one to have stacktraces generated, empty string means report on all"
 )
 set_property(
-  CACHE NANO_TIMED_LOCKS_FILTER
+  CACHE VBAN_TIMED_LOCKS_FILTER
   PROPERTY STRINGS
            active
            block_arrival
@@ -108,95 +108,95 @@ set_property(
            vote_uniquer
            votes_cache
            work_pool)
-set(NANO_FUZZER_TEST
+set(VBAN_FUZZER_TEST
     OFF
     CACHE BOOL "")
-set(NANO_ASIO_HANDLER_TRACKING
+set(VBAN_ASIO_HANDLER_TRACKING
     0
     CACHE STRING "")
-set(NANO_ROCKSDB_TOOLS
+set(VBAN_ROCKSDB_TOOLS
     OFF
     CACHE BOOL "")
 
-option(NANO_STACKTRACE_BACKTRACE
+option(VBAN_STACKTRACE_BACKTRACE
        "Use BOOST_STACKTRACE_USE_BACKTRACE in stacktraces, for POSIX" OFF)
-if(NANO_STACKTRACE_BACKTRACE)
-  add_definitions(-DNANO_STACKTRACE_BACKTRACE=1)
+if(VBAN_STACKTRACE_BACKTRACE)
+  add_definitions(-DVBAN_STACKTRACE_BACKTRACE=1)
   if(BACKTRACE_INCLUDE)
     add_definitions(
       -DBOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE=${BACKTRACE_INCLUDE})
   endif()
 endif()
 
-if(${NANO_TIMED_LOCKS} GREATER 0)
-  add_definitions(-DNANO_TIMED_LOCKS=${NANO_TIMED_LOCKS})
-  add_definitions(-DNANO_TIMED_LOCKS_FILTER=${NANO_TIMED_LOCKS_FILTER})
-  if(NANO_TIMED_LOCKS_IGNORE_BLOCKED)
-    add_definitions(-DNANO_TIMED_LOCKS_IGNORE_BLOCKED)
+if(${VBAN_TIMED_LOCKS} GREATER 0)
+  add_definitions(-DVBAN_TIMED_LOCKS=${VBAN_TIMED_LOCKS})
+  add_definitions(-DVBAN_TIMED_LOCKS_FILTER=${VBAN_TIMED_LOCKS_FILTER})
+  if(VBAN_TIMED_LOCKS_IGNORE_BLOCKED)
+    add_definitions(-DVBAN_TIMED_LOCKS_IGNORE_BLOCKED)
   endif()
 endif()
 
-if(${NANO_ASIO_HANDLER_TRACKING} GREATER 0)
-  add_definitions(-DNANO_ASIO_HANDLER_TRACKING=${NANO_ASIO_HANDLER_TRACKING}
+if(${VBAN_ASIO_HANDLER_TRACKING} GREATER 0)
+  add_definitions(-DVBAN_ASIO_HANDLER_TRACKING=${VBAN_ASIO_HANDLER_TRACKING}
                   -DBOOST_ASIO_ENABLE_HANDLER_TRACKING)
 endif()
 
-option(NANO_ASAN_INT "Enable ASan+UBSan+Integer overflow" OFF)
-option(NANO_ASAN "Enable ASan+UBSan" OFF)
-option(NANO_TSAN "Enable TSan" OFF)
-option(NANO_SIMD_OPTIMIZATIONS
+option(VBAN_ASAN_INT "Enable ASan+UBSan+Integer overflow" OFF)
+option(VBAN_ASAN "Enable ASan+UBSan" OFF)
+option(VBAN_TSAN "Enable TSan" OFF)
+option(VBAN_SIMD_OPTIMIZATIONS
        "Enable CPU-specific SIMD optimizations (SSE/AVX or NEON, e.g.)" OFF)
 option(
   ENABLE_AES
-  "Enable AES optimizations (enabled by default with NANO_SIMD_OPTIMIZATIONS, set OFF to disable"
+  "Enable AES optimizations (enabled by default with VBAN_SIMD_OPTIMIZATIONS, set OFF to disable"
   ON)
 option(ENABLE_AVX2 "Enable AVX2 optimizations" OFF)
 
 set(ACTIVE_NETWORK
-    nano_live_network
+    vban_live_network
     CACHE STRING "Selects which network parameters are used")
 set_property(
-  CACHE ACTIVE_NETWORK PROPERTY STRINGS nano_dev_network nano_beta_network
-                                nano_live_network nano_test_network)
+  CACHE ACTIVE_NETWORK PROPERTY STRINGS vban_dev_network vban_beta_network
+                                vban_live_network vban_test_network)
 set(CPACK_PACKAGE_NAME
-    "nano-node"
+    "vban-node"
     CACHE STRING "" FORCE)
 set(CPACK_NSIS_PACKAGE_NAME
-    "Nano"
+    "Vban"
     CACHE STRING "" FORCE)
 set(CPACK_PACKAGE_INSTALL_DIRECTORY
     "nanocurrency"
     CACHE STRING "" FORCE)
-set(NANO_SERVICE "nanocurrency.service")
-set(NANO_PREFIX "")
-if("${ACTIVE_NETWORK}" MATCHES "nano_beta_network")
-  project("nano-node-beta")
+set(VBAN_SERVICE "nanocurrency.service")
+set(VBAN_PREFIX "")
+if("${ACTIVE_NETWORK}" MATCHES "vban_beta_network")
+  project("vban-node-beta")
   set(CPACK_PACKAGE_NAME
-      "nano-node-beta"
+      "vban-node-beta"
       CACHE STRING "" FORCE)
   set(CPACK_NSIS_PACKAGE_NAME
-      "Nano-Beta"
+      "Vban-Beta"
       CACHE STRING "" FORCE)
   set(CPACK_PACKAGE_INSTALL_DIRECTORY
       "nanocurrency-beta"
       CACHE STRING "" FORCE)
-  set(NANO_SERVICE "nanocurrency-beta.service")
-  set(NANO_PREFIX "Beta")
-elseif("${ACTIVE_NETWORK}" MATCHES "nano_test_network")
-  project("nano-node-test")
+  set(VBAN_SERVICE "nanocurrency-beta.service")
+  set(VBAN_PREFIX "Beta")
+elseif("${ACTIVE_NETWORK}" MATCHES "vban_test_network")
+  project("vban-node-test")
   set(CPACK_PACKAGE_NAME
-      "nano-node-test"
+      "vban-node-test"
       CACHE STRING "" FORCE)
   set(CPACK_NSIS_PACKAGE_NAME
-      "Nano-Test"
+      "Vban-Test"
       CACHE STRING "" FORCE)
   set(CPACK_PACKAGE_INSTALL_DIRECTORY
       "nanocurrency-test"
       CACHE STRING "" FORCE)
-  set(NANO_SERVICE "nanocurrency-test.service")
-  set(NANO_PREFIX "Test")
+  set(VBAN_SERVICE "nanocurrency-test.service")
+  set(VBAN_PREFIX "Test")
 endif()
-set(NANO_OSX_PACKAGE_NAME
+set(VBAN_OSX_PACKAGE_NAME
     ${CPACK_NSIS_PACKAGE_NAME}
     CACHE STRING "" FORCE)
 
@@ -211,9 +211,9 @@ endif()
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-set(USING_ASAN (NANO_ASAN OR RAIBLOCKS_ASAN))
-set(USING_ASAN_INT (NANO_ASAN_INT OR RAIBLOCKS_ASAN_INT))
-set(USING_TSAN (NANO_TSAN OR RAIBLOCKS_TSAN))
+set(USING_ASAN (VBAN_ASAN OR RAIBLOCKS_ASAN))
+set(USING_ASAN_INT (VBAN_ASAN_INT OR RAIBLOCKS_ASAN_INT))
+set(USING_TSAN (VBAN_TSAN OR RAIBLOCKS_TSAN))
 
 find_package(Threads)
 
@@ -229,7 +229,7 @@ if(WIN32)
   endif()
 
 else()
-  if(NANO_WARN_TO_ERR)
+  if(VBAN_WARN_TO_ERR)
     add_compile_options(-Werror -Wno-deprecated-declarations)
   endif()
 
@@ -253,13 +253,13 @@ else()
     add_definitions(-DED25519_NO_INLINE_ASM)
   endif()
 
-  if(NANO_FUZZER_TEST)
+  if(VBAN_FUZZER_TEST)
     add_compile_options(-fsanitize=fuzzer-no-link -fno-omit-frame-pointer)
-    add_definitions(-DNANO_FUZZER_TEST)
+    add_definitions(-DVBAN_FUZZER_TEST)
   endif()
 
   if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(i.86|x86(_64)?)$")
-    if(NANO_SIMD_OPTIMIZATIONS
+    if(VBAN_SIMD_OPTIMIZATIONS
        OR RAIBLOCKS_SIMD_OPTIMIZATIONS
        OR ENABLE_AVX2)
       add_compile_options(-msse4)
@@ -274,7 +274,7 @@ else()
     endif()
 
   elseif(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
-    if(NANO_SIMD_OPTIMIZATIONS OR RAIBLOCKS_SIMD_OPTIMIZATIONS)
+    if(VBAN_SIMD_OPTIMIZATIONS OR RAIBLOCKS_SIMD_OPTIMIZATIONS)
       add_compile_options(-march=armv8-a+crc+crypto)
     else()
       add_compile_options(-march=armv8-a)
@@ -328,17 +328,17 @@ else()
       )
     endif()
   endif()
-  if(NANO_FUZZER_TEST)
+  if(VBAN_FUZZER_TEST)
     set(PLATFORM_LINK_FLAGS "${PLATFORM_LINK_FLAGS} -fsanitize=fuzzer-no-link")
   endif()
 endif()
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${PLATFORM_LINK_FLAGS}")
 
-if(NANO_SECURE_RPC OR RAIBLOCKS_SECURE_RPC)
+if(VBAN_SECURE_RPC OR RAIBLOCKS_SECURE_RPC)
   find_package(OpenSSL 1.0 REQUIRED)
   include_directories(${OPENSSL_INCLUDE_DIR})
-  add_definitions(-DNANO_SECURE_RPC)
+  add_definitions(-DVBAN_SECURE_RPC)
   message("OpenSSL include dir: ${OPENSSL_INCLUDE_DIR}")
   message("OpenSSL libraries: ${OPENSSL_LIBRARIES}")
   message("OpenSSL lib: ${OPENSSL_SSL_LIBRARY}")
@@ -350,20 +350,20 @@ endif()
 include_directories(${CMAKE_SOURCE_DIR})
 
 if(WIN32
-   AND NANO_TEST
-   AND NANO_SHARED_BOOST)
+   AND VBAN_TEST
+   AND VBAN_SHARED_BOOST)
   message(
     SEND_ERROR
-      " Linking errors occur if NANO_SHARED_BOOST is used with tests on Windows"
-      " Disable NANO_SHARED_BOOST or NANO_TEST on Windows")
-  set(NANO_SHARED_BOOST)
+      " Linking errors occur if VBAN_SHARED_BOOST is used with tests on Windows"
+      " Disable VBAN_SHARED_BOOST or VBAN_TEST on Windows")
+  set(VBAN_SHARED_BOOST)
 endif()
 
-set(NANO_SHARED_BOOST
+set(VBAN_SHARED_BOOST
     OFF
-    CACHE BOOL "Build Nano with shared boost")
+    CACHE BOOL "Build Vban with shared boost")
 
-if(NANO_SHARED_BOOST)
+if(VBAN_SHARED_BOOST)
   set(Boost_USE_STATIC_LIBS OFF)
   set(Boost_USE_STATIC_RUNTIME OFF)
   set(Boost_NO_BOOST_CMAKE ON)
@@ -396,10 +396,10 @@ set(ROCKSDB_BUILD_SHARED
     OFF
     CACHE BOOL "")
 set(WITH_CORE_TOOLS
-    ${NANO_ROCKSDB_TOOLS}
+    ${VBAN_ROCKSDB_TOOLS}
     CACHE BOOL "" FORCE)
 set(WITH_TOOLS
-    ${NANO_ROCKSDB_TOOLS}
+    ${VBAN_ROCKSDB_TOOLS}
     CACHE BOOL "" FORCE)
 if(ENABLE_AVX2)
   set(PORTABLE
@@ -415,8 +415,8 @@ add_subdirectory(rocksdb EXCLUDE_FROM_ALL)
 include_directories(cpptoml/include)
 add_subdirectory(crypto/ed25519-donna)
 
-add_subdirectory(nano/ipc_flatbuffers_lib)
-add_subdirectory(nano/ipc_flatbuffers_test)
+add_subdirectory(vban/ipc_flatbuffers_lib)
+add_subdirectory(vban/ipc_flatbuffers_test)
 
 set(UPNPC_BUILD_SHARED
     OFF
@@ -440,7 +440,7 @@ if(WIN32)
   # similar to SSE2 settings
   add_definitions(-DCRYPTOPP_DISABLE_SSSE3 -DCRYPTOPP_DISABLE_AESNI)
 elseif(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64"
-       AND (NANO_SIMD_OPTIMIZATIONS OR RAIBLOCKS_SIMD_OPTIMIZATIONS))
+       AND (VBAN_SIMD_OPTIMIZATIONS OR RAIBLOCKS_SIMD_OPTIMIZATIONS))
   set(CRYPTOPP_EXTRA
       crypto/cryptopp/crc_simd.cpp crypto/cryptopp/gcm_simd.cpp
       crypto/cryptopp/gf2n_simd.cpp crypto/cryptopp/neon_simd.cpp)
@@ -544,26 +544,26 @@ add_library(blake2 crypto/blake2/blake2-config.h crypto/blake2/blake2-impl.h
 
 target_compile_definitions(blake2 PRIVATE -D__SSE2__)
 
-if(NANO_POW_SERVER)
+if(VBAN_POW_SERVER)
   add_subdirectory(nano-pow-server)
 endif()
-add_subdirectory(nano/crypto_lib)
-add_subdirectory(nano/secure)
-add_subdirectory(nano/lib)
-add_subdirectory(nano/node)
-add_subdirectory(nano/nano_node)
-add_subdirectory(nano/rpc)
-add_subdirectory(nano/nano_rpc)
+add_subdirectory(vban/crypto_lib)
+add_subdirectory(vban/secure)
+add_subdirectory(vban/lib)
+add_subdirectory(vban/node)
+add_subdirectory(vban/vban_node)
+add_subdirectory(vban/rpc)
+add_subdirectory(vban/vban_rpc)
 
-if(NANO_FUZZER_TEST)
+if(VBAN_FUZZER_TEST)
   if(NOT WIN32)
-    add_subdirectory(nano/fuzzer_test)
+    add_subdirectory(vban/fuzzer_test)
   else()
     message(WARNING "Fuzzing is not supported on Windows")
   endif()
 endif()
 
-if(NANO_TEST OR RAIBLOCKS_TEST)
+if(VBAN_TEST OR RAIBLOCKS_TEST)
   find_package(Boost 1.70.0 REQUIRED COMPONENTS coroutine context)
   if(WIN32)
     if(MSVC_VERSION)
@@ -577,7 +577,7 @@ if(NANO_TEST OR RAIBLOCKS_TEST)
     set(gtest_force_shared_crt OFF)
   endif()
 
-  add_subdirectory(nano/load_test)
+  add_subdirectory(vban/load_test)
 
   add_subdirectory(gtest/googletest)
   # FIXME: This fixes gtest include directories without modifying gtest's
@@ -587,12 +587,12 @@ if(NANO_TEST OR RAIBLOCKS_TEST)
     gtest PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
                      "${CMAKE_SOURCE_DIR}/gtest/googletest/include")
 
-  add_subdirectory(nano/test_common)
-  add_subdirectory(nano/core_test)
-  add_subdirectory(nano/rpc_test)
-  add_subdirectory(nano/slow_test)
+  add_subdirectory(vban/test_common)
+  add_subdirectory(vban/core_test)
+  add_subdirectory(vban/rpc_test)
+  add_subdirectory(vban/slow_test)
 endif()
-if(NANO_GUI OR RAIBLOCKS_GUI)
+if(VBAN_GUI OR RAIBLOCKS_GUI)
   install(FILES ${PROJECT_BINARY_DIR}/config-node.toml.sample DESTINATION .)
   install(FILES ${PROJECT_BINARY_DIR}/config-rpc.toml.sample DESTINATION .)
   if(WIN32)
@@ -603,13 +603,13 @@ if(NANO_GUI OR RAIBLOCKS_GUI)
 
   find_package(Qt5 COMPONENTS Core Gui Widgets Test ${PLATFORM_QT_PACKAGES})
 
-  add_library(qt nano/qt/qt.cpp nano/qt/qt.hpp)
+  add_library(qt vban/qt/qt.cpp vban/qt/qt.hpp)
 
   target_link_libraries(
     qt
     node
     secure
-    nano_lib
+    vban_lib
     libminiupnpc-static
     Qt5::Gui
     Qt5::Widgets)
@@ -625,13 +625,13 @@ if(NANO_GUI OR RAIBLOCKS_GUI)
   endif()
 
   if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set(PLATFORM_WALLET_SOURCE nano/nano_wallet/plat/default/icon.cpp)
+    set(PLATFORM_WALLET_SOURCE vban/vban_wallet/plat/default/icon.cpp)
   elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    set(PLATFORM_WALLET_SOURCE nano/nano_wallet/plat/windows/icon.cpp Nano.rc)
+    set(PLATFORM_WALLET_SOURCE vban/vban_wallet/plat/windows/icon.cpp Vban.rc)
   elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    set(PLATFORM_WALLET_SOURCE nano/nano_wallet/plat/default/icon.cpp)
+    set(PLATFORM_WALLET_SOURCE vban/vban_wallet/plat/default/icon.cpp)
   elseif(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
-    set(PLATFORM_WALLET_SOURCE nano/nano_wallet/plat/default/icon.cpp)
+    set(PLATFORM_WALLET_SOURCE vban/vban_wallet/plat/default/icon.cpp)
   else()
     error("Unknown platform: ${CMAKE_SYSTEM_NAME}")
   endif()
@@ -639,33 +639,33 @@ if(NANO_GUI OR RAIBLOCKS_GUI)
   qt5_add_resources(RES resources.qrc)
 
   add_executable(
-    nano_wallet ${PLATFORM_GUI_TARGET_PROPERTIES} ${PLATFORM_WALLET_SOURCE}
-                nano/nano_wallet/entry.cpp nano/nano_wallet/icon.hpp ${RES})
+    vban_wallet ${PLATFORM_GUI_TARGET_PROPERTIES} ${PLATFORM_WALLET_SOURCE}
+                vban/vban_wallet/entry.cpp vban/vban_wallet/icon.hpp ${RES})
 
-  target_link_libraries(nano_wallet rpc node qt)
+  target_link_libraries(vban_wallet rpc node qt)
 
   if(WIN32)
-    target_link_libraries(nano_wallet Qt5::WinExtras)
-    # nano_wallet.com executable for Windows console
-    add_executable(nano_wallet_com nano/nano_wallet/entry_com.cpp)
-    target_link_libraries(nano_wallet_com node)
+    target_link_libraries(vban_wallet Qt5::WinExtras)
+    # vban_wallet.com executable for Windows console
+    add_executable(vban_wallet_com vban/vban_wallet/entry_com.cpp)
+    target_link_libraries(vban_wallet_com node)
     set_target_properties(
-      nano_wallet_com
+      vban_wallet_com
       PROPERTIES COMPILE_FLAGS "-DBOOST_ASIO_HAS_STD_ARRAY=1"
-                 OUTPUT_NAME "nano_wallet"
+                 OUTPUT_NAME "vban_wallet"
                  SUFFIX ".com")
   endif()
 
-  add_executable(qt_system nano/qt_system/entry.cpp)
+  add_executable(qt_system vban/qt_system/entry.cpp)
 
   target_link_libraries(qt_system qt node Qt5::Gui Qt5::Widgets)
 
   set_target_properties(
-    qt nano_wallet qt_system
+    qt vban_wallet qt_system
     PROPERTIES COMPILE_FLAGS "-DQT_NO_KEYWORDS -DBOOST_ASIO_HAS_STD_ARRAY=1")
 
-  if(NANO_TEST OR RAIBLOCKS_TEST)
-    add_executable(qt_test nano/qt_test/entry.cpp nano/qt_test/qt.cpp)
+  if(VBAN_TEST OR RAIBLOCKS_TEST)
+    add_executable(qt_test vban/qt_test/entry.cpp vban/qt_test/qt.cpp)
 
     target_link_libraries(
       qt_test
@@ -686,47 +686,47 @@ if(NANO_GUI OR RAIBLOCKS_GUI)
     set(CPACK_GENERATOR "DragNDrop")
     configure_file(${CMAKE_SOURCE_DIR}/Info.plist.in
                    ${CMAKE_SOURCE_DIR}/Info.plist @ONLY)
-    install(TARGETS nano_wallet
-            DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents/MacOS)
-    install(TARGETS nano_node
-            DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents/MacOS)
-    install(TARGETS nano_rpc
-            DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents/MacOS)
-    install(FILES Info.plist DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents)
+    install(TARGETS vban_wallet
+            DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents/MacOS)
+    install(TARGETS vban_node
+            DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents/MacOS)
+    install(TARGETS vban_rpc
+            DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents/MacOS)
+    install(FILES Info.plist DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents)
     install(FILES qt.conf
-            DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents/Resources)
+            DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents/Resources)
     install(DIRECTORY ${Qt5_DIR}/../../QtCore.framework
-            DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents/Frameworks)
+            DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents/Frameworks)
     install(DIRECTORY ${Qt5_DIR}/../../QtDBus.framework
-            DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents/Frameworks)
+            DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents/Frameworks)
     install(DIRECTORY ${Qt5_DIR}/../../QtGui.framework
-            DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents/Frameworks)
+            DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents/Frameworks)
     install(DIRECTORY ${Qt5_DIR}/../../QtPrintSupport.framework
-            DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents/Frameworks)
+            DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents/Frameworks)
     install(DIRECTORY ${Qt5_DIR}/../../QtTest.framework
-            DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents/Frameworks)
+            DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents/Frameworks)
     install(DIRECTORY ${Qt5_DIR}/../../QtWidgets.framework
-            DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents/Frameworks)
+            DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents/Frameworks)
     install(FILES "${Qt5_DIR}/../../../plugins/platforms/libqcocoa.dylib"
-            DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents/PlugIns/platforms)
-    if(NANO_SHARED_BOOST)
+            DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents/PlugIns/platforms)
+    if(VBAN_SHARED_BOOST)
       foreach(boost_lib IN LISTS Boost_LIBRARIES)
         string(REGEX MATCH "(.+/.*boost_[^-]+)" boost_lib_name ${boost_lib})
         set(boost_dll "${CMAKE_MATCH_1}")
         if(${boost_dll} MATCHES "boost")
           install(FILES ${boost_dll}
-                  DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents/boost/lib)
+                  DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents/boost/lib)
         endif()
       endforeach(boost_lib)
     endif()
-    if(NANO_POW_SERVER)
-      install(TARGETS nano_pow_server
-              DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents/MacOS)
+    if(VBAN_POW_SERVER)
+      install(TARGETS vban_pow_server
+              DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents/MacOS)
       install(DIRECTORY ${PROJECT_SOURCE_DIR}/nano-pow-server/public
-              DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents/MacOS)
+              DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents/MacOS)
     endif()
-    install(FILES Nano.icns
-            DESTINATION ${NANO_OSX_PACKAGE_NAME}.app/Contents/Resources)
+    install(FILES Vban.icns
+            DESTINATION ${VBAN_OSX_PACKAGE_NAME}.app/Contents/Resources)
   elseif(WIN32)
     if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
       set(WIN_REDIST vc_redist.x64.exe)
@@ -735,25 +735,25 @@ if(NANO_GUI OR RAIBLOCKS_GUI)
     endif()
     set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS
         "ExecWait '\\\"$INSTDIR\\\\${WIN_REDIST}\\\" /quiet /norestart'
-												WriteRegDWORD HKLM 'SYSTEM\\\\CurrentControlSet\\\\Services\\\\EventLog\\\\Nano\\\\Nano${NANO_PREFIX}' 'TypesSupported' '0x7'
-												WriteRegStr HKLM 'SYSTEM\\\\CurrentControlSet\\\\Services\\\\EventLog\\\\Nano\\\\Nano${NANO_PREFIX}' 'EventMessageFile' '$INSTDIR\\\\nano_wallet.exe'"
+												WriteRegDWORD HKLM 'SYSTEM\\\\CurrentControlSet\\\\Services\\\\EventLog\\\\Vban\\\\Vban${VBAN_PREFIX}' 'TypesSupported' '0x7'
+												WriteRegStr HKLM 'SYSTEM\\\\CurrentControlSet\\\\Services\\\\EventLog\\\\Vban\\\\Vban${VBAN_PREFIX}' 'EventMessageFile' '$INSTDIR\\\\vban_wallet.exe'"
     )
     set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS
-        "DeleteRegKey HKLM 'SYSTEM\\\\CurrentControlSet\\\\Services\\\\EventLog\\\\Nano${NANO_PREFIX}'"
+        "DeleteRegKey HKLM 'SYSTEM\\\\CurrentControlSet\\\\Services\\\\EventLog\\\\Vban${VBAN_PREFIX}'"
     )
-    set(CPACK_NSIS_MUI_ICON ${CMAKE_SOURCE_DIR}/Nano.ico)
-    set(CPACK_NSIS_DISPLAY_NAME "Nano${NANO_PREFIX}")
-    set(CPACK_NSIS_URL_INFO_ABOUT "https://nano.org")
-    set(CPACK_NSIS_CONTACT "info@nano.org")
-    set(CPACK_NSIS_MENU_LINKS "nano_wallet.exe" "Nano Wallet"
-                              "https://nano.org" "Nano website")
+    set(CPACK_NSIS_MUI_ICON ${CMAKE_SOURCE_DIR}/Vban.ico)
+    set(CPACK_NSIS_DISPLAY_NAME "Vban${VBAN_PREFIX}")
+    set(CPACK_NSIS_URL_INFO_ABOUT "https://vban.org")
+    set(CPACK_NSIS_CONTACT "info@vban.org")
+    set(CPACK_NSIS_MENU_LINKS "vban_wallet.exe" "Vban Wallet"
+                              "https://vban.org" "Vban website")
     set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
     get_target_property(Qt5WindowsPlugin Qt5::QWindowsIntegrationPlugin
                         LOCATION)
     get_filename_component(Qt5_bin_DIR ${Qt5_DIR}/../../../bin ABSOLUTE)
-    install(TARGETS nano_wallet DESTINATION .)
-    install(TARGETS nano_wallet_com DESTINATION .)
-    if(NANO_SHARED_BOOST)
+    install(TARGETS vban_wallet DESTINATION .)
+    install(TARGETS vban_wallet_com DESTINATION .)
+    if(VBAN_SHARED_BOOST)
       foreach(boost_lib IN LISTS Boost_LIBRARIES)
         if(${CMAKE_BUILD_TYPE} MATCHES "Rel")
           string(REGEX MATCH "(.+/.*boost_[^-]+-.+-mt-x64.+\)(.lib|a)"
@@ -772,8 +772,8 @@ if(NANO_GUI OR RAIBLOCKS_GUI)
         endif()
       endforeach(boost_lib)
     endif()
-    if(NANO_POW_SERVER)
-      install(TARGETS nano_pow_server DESTINATION .)
+    if(VBAN_POW_SERVER)
+      install(TARGETS vban_pow_server DESTINATION .)
       install(DIRECTORY ${PROJECT_SOURCE_DIR}/nano-pow-server/public
               DESTINATION .)
     endif()
@@ -787,9 +787,9 @@ if(NANO_GUI OR RAIBLOCKS_GUI)
   else()
     set(CPACK_GENERATOR "TBZ2;DEB")
     set(CPACK_DEBIAN_PACKAGE_DEPENDS qt5-default)
-    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "russel@nano.org")
-    install(TARGETS nano_wallet RUNTIME DESTINATION ./bin)
-    if(NANO_SHARED_BOOST)
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "russel@vban.org")
+    install(TARGETS vban_wallet RUNTIME DESTINATION ./bin)
+    if(VBAN_SHARED_BOOST)
       foreach(boost_lib IN LISTS Boost_LIBRARIES)
         string(REGEX MATCH "(.+/.*boost_[^-]+)" boost_lib_name ${boost_lib})
         set(boost_dll "${CMAKE_MATCH_1}.${Boost_VERSION_STRING}")
@@ -798,8 +798,8 @@ if(NANO_GUI OR RAIBLOCKS_GUI)
         endif()
       endforeach(boost_lib)
     endif()
-    if(NANO_POW_SERVER)
-      install(TARGETS nano_pow_server DESTINATION ./bin)
+    if(VBAN_POW_SERVER)
+      install(TARGETS vban_pow_server DESTINATION ./bin)
       install(DIRECTORY ${PROJECT_SOURCE_DIR}/nano-pow-server/public
               DESTINATION ./bin)
     endif()
@@ -822,7 +822,7 @@ if(NANO_GUI OR RAIBLOCKS_GUI)
         GROUP_EXECUTE
         WORLD_READ
         WORLD_EXECUTE)
-    install(FILES etc/systemd/${NANO_SERVICE} DESTINATION ./extras/systemd/.)
+    install(FILES etc/systemd/${VBAN_SERVICE} DESTINATION ./extras/systemd/.)
     set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA
         "${CMAKE_CURRENT_BINARY_DIR}/debian-control/postinst;${CMAKE_CURRENT_BINARY_DIR}/debian-control/postrm"
     )

@@ -5,18 +5,18 @@ set +e
 useradd -r nanocurrency
 groupadd -r nanocurrency
 
-mkdir -p /var/nanocurrency/Nano
-mkdir -p /var/nanocurrency/NanoBeta
-mkdir -p /var/nanocurrency/NanoTest
+mkdir -p /var/nanocurrency/Vban
+mkdir -p /var/nanocurrency/VbanBeta
+mkdir -p /var/nanocurrency/VbanTest
 chown -R nanocurrency: /var/nanocurrency
 
-systemctl stop ${NANO_SERVICE} 2>/dev/null
-systemctl disable ${NANO_SERVICE} 2>/dev/null
-cp ${CMAKE_INSTALL_PREFIX}/extras/systemd/${NANO_SERVICE} /etc/systemd/system/${NANO_SERVICE}
+systemctl stop ${VBAN_SERVICE} 2>/dev/null
+systemctl disable ${VBAN_SERVICE} 2>/dev/null
+cp ${CMAKE_INSTALL_PREFIX}/extras/systemd/${VBAN_SERVICE} /etc/systemd/system/${VBAN_SERVICE}
 systemctl daemon-reload
-systemctl enable ${NANO_SERVICE}
-systemctl start ${NANO_SERVICE}
+systemctl enable ${VBAN_SERVICE}
+systemctl start ${VBAN_SERVICE}
 sleep 1
-systemctl --no-pager status ${NANO_SERVICE}
+systemctl --no-pager status ${VBAN_SERVICE}
 
 set -e

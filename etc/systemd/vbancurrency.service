@@ -1,0 +1,13 @@
+[Unit]
+Description=Vban Live Network Daemon
+After=network.target
+
+[Service]
+Type=simple
+User=nanocurrency
+WorkingDirectory=/var/nanocurrency/Vban
+ExecStart=/usr/bin/vban_node --daemon --data_path=/var/nanocurrency/Vban
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

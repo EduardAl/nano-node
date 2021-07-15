@@ -1,4 +1,4 @@
-FROM nanocurrency/nano-env:base
+FROM nanocurrency/vban-env:base
 
 RUN apt-get install -yqq git
 
@@ -7,5 +7,5 @@ ENV BOOST_ROOT=/tmp/boost
 ADD util/build_prep/fetch_boost.sh fetch_boost.sh
 
 RUN COMPILER=gcc ./fetch_boost.sh
-ARG REPOSITORY=nanocurrency/nano-node
+ARG REPOSITORY=nanocurrency/vban-node
 LABEL org.opencontainers.image.source https://github.com/$REPOSITORY
